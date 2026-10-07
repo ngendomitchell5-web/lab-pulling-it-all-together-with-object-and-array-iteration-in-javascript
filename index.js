@@ -114,3 +114,21 @@ function gameObject() {
         },
     };
 }
+
+const teams = () => Object.values(gameObject());
+const findTeam = name => teams().find(team => team.teamName === name);
+const findPlayer = name => teams().map(team => team.players[name]).find(Boolean);
+
+function numPointsScored(name) { const player = findPlayer(name); return player && player.points; }
+function shoeSize(name) { const player = findPlayer(name); return player && player.shoe; }
+function teamColors(name) { const team = findTeam(name); return team && team.colors; }
+function teamNames() { return teams().map(team => team.teamName); }
+function playerNumbers(name) {
+    const team = findTeam(name);
+    return team && Object.values(team.players).map(player => player.number);
+}
+function playerStats(name) { return findPlayer(name); }
+function bigShoeRebounds() {
+    return teams().flatMap(team => Object.values(team.players))
+        .reduce((largest, player) => player.shoe > largest.shoe ? player : largest).rebounds;
+}
